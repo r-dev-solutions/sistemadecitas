@@ -1,0 +1,120 @@
+# Sistema de Citas API Documentation
+
+## Overview
+This API allows for the management of appointments, users, services, employees, and system settings for an appointment booking system. It supports authentication, role-based access (admin, employee, client), and provides endpoints for CRUD operations and admin-only configuration.
+
+---
+
+## Authentication
+
+### Register
+- **POST** `/api/users/register`
+- Registers a new user. The first user becomes admin, others are employees by default.
+- **Body:** `{ "name": "...", "email": "...", "password": "...", "phone": "..." }`
+
+### Login
+- **POST** `/api/users/login`
+- Authenticates a user and returns a JWT token.
+- **Body:** `{ "email": "...", "password": "..." }`
+
+---
+
+## Appointments
+
+### Get All Appointments
+- **GET** `/api/appointments`
+- Returns a list of all appointments.
+
+### Create Appointment
+- **POST** `/api/appointments`
+- Creates a new appointment.
+- **Body:** `{ "client": "...", "service": "...", "employee": "...", "date": "...", ... }`
+
+### Update Appointment
+- **PUT** `/api/appointments/:id`
+- Updates an existing appointment by ID.
+
+### Delete Appointment
+- **DELETE** `/api/appointments/:id`
+- Deletes an appointment by ID.
+
+---
+
+## Services
+
+### Get All Services
+- **GET** `/api/services`
+- Returns a list of all services.
+
+### Create Service (Admin Only)
+- **POST** `/api/services`
+- Creates a new service.
+- **Headers:** `Authorization: Bearer <token>`
+- **Body:** `{ "name": "...", "duration": ..., "price": ..., "provider": "..." }`
+
+### Update Service (Admin Only)
+- **PUT** `/api/services/:id`
+- Updates a service by ID.
+
+### Delete Service (Admin Only)
+- **DELETE** `/api/services/:id`
+- Deletes a service by ID.
+
+---
+
+## Employees
+
+### Get All Employees
+- **GET** `/api/employees`
+- Returns a list of all employees.
+
+### Create Employee (Admin Only)
+- **POST** `/api/employees`
+- Creates a new employee.
+- **Headers:** `Authorization: Bearer <token>`
+
+### Update Employee (Admin Only)
+- **PUT** `/api/employees/:id`
+- Updates an employee by ID.
+
+### Delete Employee (Admin Only)
+- **DELETE** `/api/employees/:id`
+- Deletes an employee by ID.
+
+---
+
+## Admin Endpoints (Admin Only)
+
+### Get System Settings
+- **GET** `/api/admin/settings`
+- Returns system configuration.
+
+### Update System Settings
+- **PUT** `/api/admin/settings`
+- Updates system configuration.
+
+### Get Reports/Statistics
+- **GET** `/api/admin/reports`
+- Returns usage statistics and reports.
+
+---
+
+## Authorization
+
+- Endpoints marked as "Admin Only" require a valid JWT token for a user with the `admin` role.
+- Include the token in the `Authorization` header:  
+  `Authorization: Bearer <token>`
+
+---
+
+## Error Handling
+
+- All endpoints return appropriate HTTP status codes and error messages in JSON format.
+
+---
+
+## Notes
+
+- All data should be sent and received as JSON.
+- CORS is enabled for all origins.
+- For further customization or questions, refer to the codebase or contact the system administrator.
